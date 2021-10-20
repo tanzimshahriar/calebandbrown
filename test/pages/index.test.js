@@ -9,7 +9,7 @@ describe("Homepage", () => {
         render(<HomePage />);
 
         const heading = screen.getByText(
-            /Welcome to Next.js!/i
+            /Top Analytics Coins By Market/i
         );
 
         // we can only use toBeInTheDocument because it was imported

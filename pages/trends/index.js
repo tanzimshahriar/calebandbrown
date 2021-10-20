@@ -1,13 +1,11 @@
 export default function Trends() {
     return (
-        <section>
-            <h1>
-                Trends
+        <div className="px-4 py-8 md:px-12 md:py-12 lg:px-16 xl:px-24 font-thin text-md">
+            <h1 className="text-4xl">
+                Trending Coins Based on Volume
             </h1>
 
-            <p>
-                this will show current trends
-            </p>
-        </section>
+            <div>Content</div>
+        </div>
     )
 }

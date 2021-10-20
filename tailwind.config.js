@@ -17,11 +17,8 @@ module.exports = {
       sunflower: '#ffc800',
       evening: '#262228',
       irises: '#007849',
-      aqua: '#375b4',
-    },
-    fontFamily: {
-      sans: ["Segoe UI", "Montserrat"],
-
+      aqua: '#0375b4',
+      red: '#b11e31'
     },
     extend: {
       spacing: {
