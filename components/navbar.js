@@ -9,7 +9,7 @@ export default function Navbar() {
             className="w-full sticky top-0 text-lightthree font-thin pb-1 shadow-sm bg-white flex flex-wrap sm:block"
         >
             <div className="sm:absolute flex py-2">
-                <div className="px-2 flex items-center justify-center"><Image src="/next-js.svg" alt="Vercel Logo" width={25} height={25} /></div>
+                <div className="pl-6 pr-2 flex items-center justify-center"><Image src="/next-js.svg" alt="Vercel Logo" width={25} height={25} /></div>
                 <div className="text-md md:text-2xl font-medium">Crypto Tracker</div>
             </div>
             <div
