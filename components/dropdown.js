@@ -24,7 +24,7 @@ const Dropdown = (props) => {
     return (
         <div>
             <div className="flex flex-col mx-1 sm:mx-4">
-                <div onClick={() => setExpand(!expand)} className="flex items-center justify-center md:gap-x-1 sm:px-4 text-xs sm:text-sm py-1 shadow-sm bg-gray-100 rounded-md cursor-pointer">
+                <div onClick={() => setExpand(!expand)} className="flex items-center justify-center md:gap-x-1 px-2 sm:px-4 text-xs sm:text-sm py-1 shadow-sm bg-gray-100 rounded-md cursor-pointer">
                     <div>
                         {getOptionName(props.values[props.val]).name}
                     </div>
@@ -33,7 +33,7 @@ const Dropdown = (props) => {
                 <div className="shadow-md bg-gray-100 rounded-md cursor-pointer absolute z-10 mt-7 sm:mt-8">
                     {expand ?
                         [...props.values].map((v, key) => (
-                            <div key={key} onClick={() => selectFromDropdown(key)} className={'flex items-center justify-between px-1 sm:px-4 text-xs sm:text-sm py-1 hover:bg-irises hover:text-white rounded-md' + (key == props.val ? ' bg-aqua text-white' : '')}>
+                            <div key={key} onClick={() => selectFromDropdown(key)} className={'flex items-center justify-between px-2 sm:px-4 text-xs sm:text-sm py-1 hover:bg-irises hover:text-white rounded-md' + (key == props.val ? ' bg-aqua text-white' : '')}>
                                 <div>
                                     {getOptionName(v).name}
                                 </div>
