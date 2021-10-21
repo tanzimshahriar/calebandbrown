@@ -22,21 +22,21 @@ const GlobalCardView = (props) => {
         return (
             <div>
                 <div className="text-xs font-bold pt-1 pr-1">Market Cap</div>
-                <div className="text-sm pt-1 pr-1">{markCap ? ('$' + markCap) : 'N/A'}</div>
+                <div className="text-sm pt-1 pr-1 break-all">{markCap ? ('$' + markCap) : 'N/A'}</div>
             </div>
         )
     }
 
     return (
         <div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 py-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 py-6">
                 {props.marketCapPercentageList ? Object.keys(props.marketCapPercentageList).map((m, key) => (
                     <div key={key} className="rounded-md px-6 py-6 bg-gray-100 shadow-md flex">
                         <div className="flex-1 flex flex-col">
                             <div className="uppercase font-medium font-lg md:font-xl">{m}</div>
                             {renderMarketCap(m)}
                         </div>
-                        <div className="flex flex-col items-center">
+                        <div className="flex flex-col justify-center items-end">
                             <div className="text-xs font-bold">Market Cap %</div>
                             <div className="font-thin text-2xl px-2">{parseFloat(Object.values(props.marketCapPercentageList)[key]).toFixed(2)}%</div>
                         </div>
