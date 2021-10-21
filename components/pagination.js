@@ -72,62 +72,64 @@ export default function Pagination(props) {
     }
 
     return (
-        <div className="flex flex-wrap gap-y-1 w-full justify-center text-xs md:text-md font-medium py-4">
-            <div
-                className="flex items-center mr-1 px-1 md:px-4 md:py-2 md:mx-1 rounded-sm md:rounded-md hover:bg-irises hover:text-white cursor-pointer bg-gray-200"
-                onClick={() => pageClicked(props.currentPage - 1)}
-            >
-                <FontAwesomeIcon className="h-2 w-2 md:h-5 md:w-5" icon={faAngleLeft} />
-            </div>
-            {
-                props.numberOfPages > MAX_PAGES_TO_SHOW && pages && pages.length > 0 && pages[0] != 0 ?
-                    <div className="flex">
-                        <div
-                            className="flex items-center px-1 mr-1 md:px-4 md:py-2 md:mx-1 rounded-sm md:rounded-md hover:bg-irises hover:text-white cursor-pointer bg-gray-200"
-                            onClick={() => pageClicked(0)}
-                        >1
+        <div className="flex items-end flex-1">
+            <div className="flex flex-wrap gap-y-1 w-full justify-center text-xs md:text-md font-medium py-4">
+                <div
+                    className="flex items-center mr-1 px-1 md:px-4 md:py-2 md:mx-1 rounded-sm md:rounded-md hover:bg-irises hover:text-white cursor-pointer bg-gray-200"
+                    onClick={() => pageClicked(props.currentPage - 1)}
+                >
+                    <FontAwesomeIcon className="h-2 w-2 md:h-5 md:w-5" icon={faAngleLeft} />
+                </div>
+                {
+                    props.numberOfPages > MAX_PAGES_TO_SHOW && pages && pages.length > 0 && pages[0] != 0 ?
+                        <div className="flex">
+                            <div
+                                className="flex items-center px-1 mr-1 md:px-4 md:py-2 md:mx-1 rounded-sm md:rounded-md hover:bg-irises hover:text-white cursor-pointer bg-gray-200"
+                                onClick={() => pageClicked(0)}
+                            >1
+                            </div>
+                            <div
+                                className="flex items-center px-1 mr-1 md:px-4 md:py-2 md:mx-1 rounded-sm md:rounded-md bg-gray-200"
+                            >...
+                            </div>
                         </div>
-                        <div
-                            className="flex items-center px-1 mr-1 md:px-4 md:py-2 md:mx-1 rounded-sm md:rounded-md bg-gray-200"
-                        >...
-                        </div>
-                    </div>
-                    : null
-            }
-            {
-                [...pages].length != props.numberOfPages ?
-                    [...pages].map((v, i) =>
-                        <div
-                            id={`page-btn-${v}`}
-                            key={v}
-                            className={'flex items-center px-1 mr-1 md:px-4 md:py-2 md:mx-1 rounded-sm md:rounded-md hover:bg-irises hover:text-white cursor-pointer bg-gray-200' + (props.currentPage == v ? ' bg-aqua font-medium text-white' : '')}
-                            onClick={() => pageClicked(v)}
-                        >{v + 1}
-                        </div>
-                    ) : null
-            }
+                        : null
+                }
+                {
+                    [...pages].length != props.numberOfPages ?
+                        [...pages].map((v, i) =>
+                            <div
+                                id={`page-btn-${v}`}
+                                key={v}
+                                className={'flex items-center px-1 mr-1 md:px-4 md:py-2 md:mx-1 rounded-sm md:rounded-md hover:bg-irises hover:text-white cursor-pointer bg-gray-200' + (props.currentPage == v ? ' bg-aqua font-medium text-white' : '')}
+                                onClick={() => pageClicked(v)}
+                            >{v + 1}
+                            </div>
+                        ) : null
+                }
 
-            {
-                props.numberOfPages > MAX_PAGES_TO_SHOW && props.currentPage < (props.numberOfPages - 5) ?
-                    <div className="flex">
-                        <div
-                            className="flex items-center px-1 mr-1 md:px-4 md:py-2 md:mx-1 rounded-sm md:rounded-md bg-gray-200"
-                        >...
+                {
+                    props.numberOfPages > MAX_PAGES_TO_SHOW && props.currentPage < (props.numberOfPages - 5) ?
+                        <div className="flex">
+                            <div
+                                className="flex items-center px-1 mr-1 md:px-4 md:py-2 md:mx-1 rounded-sm md:rounded-md bg-gray-200"
+                            >...
+                            </div>
+                            <div
+                                className="flex items-center px-1 mr-1 md:px-4 md:py-2 md:mx-1 rounded-sm md:rounded-md hover:bg-irises hover:text-white cursor-pointer bg-gray-200"
+                                onClick={() => pageClicked(props.numberOfPages - 1)}
+                            >{props.numberOfPages}
+                            </div>
                         </div>
-                        <div
-                            className="flex items-center px-1 mr-1 md:px-4 md:py-2 md:mx-1 rounded-sm md:rounded-md hover:bg-irises hover:text-white cursor-pointer bg-gray-200"
-                            onClick={() => pageClicked(props.numberOfPages - 1)}
-                        >{props.numberOfPages}
-                        </div>
-                    </div>
-                    : null
-            }
+                        : null
+                }
 
-            <div
-                className="flex items-center px-1 mr-1 md:px-4 md:py-2 md:mx-1 rounded-sm md:rounded-md hover:bg-irises hover:text-white cursor-pointer bg-gray-200"
-                onClick={() => pageClicked(props.currentPage + 1)}
-            >
-                <FontAwesomeIcon className="h-2 w-2 md:h-5 md:w-5" icon={faAngleRight} />
+                <div
+                    className="flex items-center px-1 mr-1 md:px-4 md:py-2 md:mx-1 rounded-sm md:rounded-md hover:bg-irises hover:text-white cursor-pointer bg-gray-200"
+                    onClick={() => pageClicked(props.currentPage + 1)}
+                >
+                    <FontAwesomeIcon className="h-2 w-2 md:h-5 md:w-5" icon={faAngleRight} />
+                </div>
             </div>
         </div>
     )

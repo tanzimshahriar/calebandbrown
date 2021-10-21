@@ -2,17 +2,22 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Loading from '../components/loading';
 import ImageWithFallback from 'components/imageWithFallback';
-import { faSortAmountUp } from '@fortawesome/free-solid-svg-icons';
-import { faSortAmountDown } from '@fortawesome/free-solid-svg-icons';
 import Pagination from '../components/pagination';
+import Dropdown from 'components/dropdown';
 
 const Home = () => {
+  const ORDERS = ["market_cap_desc", "market_cap_asc", "id_asc", "id_desc", "price_desc", "price_asc",];
+  const SORT_OPTIONS = ["Market Rank High", "Market Rank Low", "Name High", "Name Low", "Price High", "Price Low"]
+
   const [markets, setMarkets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
+  const [inputError, setInputError] = useState(null);
+  const [itemsPerPageInput, setItemsPerPageInput] = useState("20")
+
   const [currency, setCurrency] = useState("aud");
-  const [order, setOrder] = useState("market_cap_desc");
+  const [order, setOrder] = useState(0);
 
   const [page, setPage] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(20);
@@ -26,15 +31,35 @@ const Home = () => {
     }
   }
 
-  const fetchData = async () => {
-    setLoading(true);
-    if (totalPages == null) {
-      await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/coins/list`)
-        .then(res => {
-          setTotalPages(countTotalPages(res.data.length))
-        })
+  const onEnter = (e) => {
+    if (e.key == "Enter") {
+      if (/^-?\d+$/.test(itemsPerPageInput) && parseInt(itemsPerPageInput) >= 10 && parseInt(itemsPerPageInput) <= 250) {
+        setItemsPerPage(parseInt(itemsPerPageInput));
+        setPage(0);
+        setInputError("");
+      } else {
+        setInputError("*must be a number between 10 and 250");
+      }
     }
-    await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/coins/markets?vs_currency=${currency}&order=${order}&per_page=${itemsPerPage}&page=${page + 1}&sparkline=false`)
+  }
+
+
+  const fetchTotalPages = async () => {
+    await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/coins/list`)
+      .then(res => {
+        setTotalPages(countTotalPages(res.data.length))
+      })
+      .catch(() => {
+        setError(true);
+      })
+  }
+
+  const fetchData = async (updatePageList = false) => {
+    setLoading(true);
+    if (totalPages == null || updatePageList) {
+      await fetchTotalPages();
+    }
+    await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/coins/markets?vs_currency=${currency}&order=${ORDERS[order]}&per_page=${itemsPerPage}&page=${page + 1}&sparkline=false`)
       .then(res => {
         setError(false);
         setMarkets([...res.data]);
@@ -46,23 +71,39 @@ const Home = () => {
         setLoading(false);
       })
   };
+
   useEffect(() => {
-    fetchData();
-  }, [page, order]);
+    if (itemsPerPage.current != itemsPerPage) {
+      fetchData(true);
+    } else {
+      fetchData();
+    }
+  }, [page, order, itemsPerPage]);
 
   return (
-    <div className="px-4 py-4 md:px-12 md:py-8 lg:py-16 lg:px-16 xl:px-24 font-thin text-md">
-      <h1 className="text-2xl md:text-4xl font-medium">
-        Top Analytics Coins By Market
-      </h1>
-
-      <div className="w-full">
-        {!error && loading && <Loading />}
-        {error && <div className="px-6 py-6">There was an error.</div>}
+    <div className="h-full px-4 py-4 md:px-12 md:py-8 lg:py-16 lg:px-16 xl:px-24 font-thin text-md">
+      <div className="w-full h-full">
+        {!error && loading && <div><Loading /></div>}
+        {error &&
+          <div className="py-2 md:py-4">
+            <div className="text-4xl">Something went wrong</div>
+            <div className="text-xl py-4">Make sure you are connected to the internet and try again.</div>
+          </div>}
         {!error && markets && (
-          <div>
+          <div className="h-full flex flex-col">
+            <h1 className="text-2xl md:text-4xl">
+              Top Analytics Coins By Market
+            </h1>
+            <div className="mt-4 flex justify-end flex-wrap">
+              <Dropdown values={SORT_OPTIONS} val={order} click={(i) => setOrder(i)} />
+              <div className="text-xs sm:text-sm">
+                Results per page: <input type="text" onKeyDown={onEnter} value={itemsPerPageInput} onChange={(e) => setItemsPerPageInput(e.target.value)} className="mx-1 w-8 sm:w-12 px-1 sm:px-2 py-1 shadow-md rounded-md text-xs sm:text-sm font-thin border-t border-gray-100"></input>
+              </div>
+
+            </div>
+            <div className="mb-4 text-right text-red small-text">{inputError}</div>
             <div className="w-full overflow-x-auto">
-              <table className="auto my-6 md:my-10 text-xs md:text-lg w-full border-r border-l border-t border-gray-100">
+              <table className="auto my-2 md:my-4 text-xs md:text-lg w-full border-r border-l border-t border-gray-100">
                 <thead>
                   <tr className="shadow-sm">
                     <th className="px-2 text-left font-thin">Rank</th>

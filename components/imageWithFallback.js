@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 const ImageWithFallback = (props) => {
     const { src, fallbackSrc, alt, width, height } = props;
-    const [imgSrc, setImgSrc] = useState(src);
+    const [imgSrc, setImgSrc] = useState((src.includes('http') ? src : (src + '/')));
 
     return (
         <Image
